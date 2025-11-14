@@ -6,26 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
-
-import java.io.File;
 import java.util.function.DoubleSupplier;
-
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -43,9 +28,7 @@ public class RobotContainer {
         configureBindings();
     }
 
-    public void teleopInit() {
-        
-    }
+    public void teleopInit() {}
 
     private void configureBindings() {
         driverConfig.registerTeleopFunctions(this);

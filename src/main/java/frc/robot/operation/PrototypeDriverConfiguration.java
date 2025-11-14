@@ -13,13 +13,14 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
     }
 
     @Override
-    public void registerRobotFunctions(RobotContainer rc) {
-        
-    }
+    public void registerRobotFunctions(RobotContainer rc) {}
 
     @Override
     public void registerTeleopFunctions(RobotContainer rc) {
-        rc.registerSwerveAngularVelocityDrive(() -> getJoystickInput(controller, 0), () -> getJoystickInput(controller, 1), () -> getJoystickInput(controller, 4));
+        rc.registerSwerveAngularVelocityDrive(
+                () -> getJoystickInput(controller, 0),
+                () -> getJoystickInput(controller, 1),
+                () -> getJoystickInput(controller, 4));
     }
 
     private double getJoystickInput(CommandXboxController stick, int axe) {
