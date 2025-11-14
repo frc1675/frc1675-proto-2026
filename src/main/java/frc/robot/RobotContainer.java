@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.drive.DriveSubsystem;
+import frc.robot.operation.OperationConfiguration;
+import frc.robot.operation.PrototypeDriverConfiguration;
 
 import java.io.File;
 import java.util.function.DoubleSupplier;
@@ -28,13 +30,13 @@ import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
-    private final CommandXboxController driverController;
+    private OperationConfiguration driverConfig;
 
     private DriveSubsystem drive;
 
     public RobotContainer() {
 
-        driverController = new CommandXboxController(0);
+        driverConfig = new PrototypeDriverConfiguration(new CommandXboxController(0));
 
         drive = new DriveSubsystem();
 
@@ -42,7 +44,15 @@ public class RobotContainer {
     }
 
     public void teleopInit() {
-        registerSwerveAngularVelocityDrive(() -> getJoystickInput(driverController, 0), () -> getJoystickInput(driverController, 1), () -> getJoystickInput(driverController, 4));
+        
+    }
+
+    private void configureBindings() {
+        driverConfig.registerTeleopFunctions(this);
+    }
+
+    public Command getAutonomousCommand() {
+        return Commands.print("No autonomous command configured");
     }
 
     public void registerSwerveAngularVelocityDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
@@ -55,17 +65,5 @@ public class RobotContainer {
                         false); // Alliance relative controls. Done already in the driver configuration files.
         Command driveFieldOrientedAnglularVelocity = drive.driveFieldOriented(driveAngularVelocity);
         drive.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-    }
-
-    private double getJoystickInput(CommandXboxController stick, int axe) {
-        return stick.getRawAxis(axe);
-    }
-
-    
-
-    private void configureBindings() {}
-
-    public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
     }
 }
