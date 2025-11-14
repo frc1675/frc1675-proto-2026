@@ -38,6 +38,7 @@ public class RobotContainer {
         return Commands.print("No autonomous command configured");
     }
 
+    // used by operation configurations to register the ability to drive the swerve
     public void registerSwerveAngularVelocityDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
         SwerveInputStream driveAngularVelocity = SwerveInputStream.of(
                         drive.getSwerveDrive(), x, y) // Axis which give the desired translational angle and speed.
