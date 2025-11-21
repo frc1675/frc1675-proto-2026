@@ -6,7 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
@@ -14,14 +16,16 @@ import java.util.function.DoubleSupplier;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
-
+final CommandXboxController driverController =
+      new CommandXboxController(OperatorConstants.DriverControllerPort);
+final Wheels wheels =
+    new Wheels(); 
     private OperationConfiguration driverConfig;
 
     private DriveSubsystem drive;
 
     public RobotContainer() {
-
-        driverConfig = new PrototypeDriverConfiguration(new CommandXboxController(0));
+     
 
         drive = new DriveSubsystem();
 
@@ -31,6 +35,7 @@ public class RobotContainer {
     public void teleopInit() {}
 
     private void configureBindings() {
+ driverController.a().onTrue(new InstantCommand(() -> wheels.startmotor()));
         driverConfig.registerTeleopFunctions(this);
     }
 

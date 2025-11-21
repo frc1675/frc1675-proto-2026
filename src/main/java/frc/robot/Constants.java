@@ -9,6 +9,7 @@ public class Constants {
         public static final double ROTATION_TARGET_RANGE = 1.5;
         public static final double MAXIMUM_VELOCITY = 5.5;
         public static final double MAXIMUM_ROTATION_VELOCITY = 1.0;
+        
     }
 
     public static class Controller {
@@ -21,4 +22,9 @@ public class Constants {
 
         public static final int SCALE_TRANSLATION = 1;
     }
+    public final double MOTOR_ON = 1.2;
+    public final double MOTOR_OFF = 0.0;
+    public static class OperatorConstants {
+        public static final int DriverControllerPort = 0;
+      }
 }
