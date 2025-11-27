@@ -17,7 +17,7 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
 
     @Override
     public void registerTeleopFunctions(RobotContainer rc) {
-        rc.registerSwerveAngularVelocityDrive(
+        rc.registerSwerveDrive(
                 () -> getJoystickInput(controller, 0),
                 () -> getJoystickInput(controller, 1),
                 () -> getJoystickInput(controller, 4));

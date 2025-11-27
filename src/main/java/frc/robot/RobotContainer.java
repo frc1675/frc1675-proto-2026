@@ -4,13 +4,22 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Meter;
+
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.brownbox.util.AllianceUtil;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
 import java.util.function.DoubleSupplier;
+
+import dev.doglog.DogLog;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -28,7 +37,13 @@ public class RobotContainer {
         configureBindings();
     }
 
-    public void teleopInit() {}
+    public void teleopInit() {
+        boolean blueAlliance = !AllianceUtil.isRedAlliance();
+        Pose2d startingPose = blueAlliance
+                ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
+                : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
+        drive.setPose2d(startingPose);
+    }
 
     private void configureBindings() {
         driverConfig.registerTeleopFunctions(this);
@@ -39,15 +54,16 @@ public class RobotContainer {
     }
 
     // used by operation configurations to register the ability to drive the swerve
-    public void registerSwerveAngularVelocityDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
-        SwerveInputStream driveAngularVelocity = SwerveInputStream.of(
-                        drive.getSwerveDrive(), x, y) // Axis which give the desired translational angle and speed.
-                .withControllerRotationAxis(rotation) // Axis which give the desired angular velocity.
-                .deadband(Constants.Controller.DEADZONE_CONSTANT) // Controller deadband
-                .scaleTranslation(Constants.Controller.SCALE_TRANSLATION) // Scaled controller translation axis
-                .allianceRelativeControl(
-                        false); // Alliance relative controls. Done already in the driver configuration files.
-        Command driveFieldOrientedAnglularVelocity = drive.driveFieldOriented(driveAngularVelocity);
-        drive.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    public void registerSwerveDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
+        
+        Command driveCommand = drive.driveCommand(() -> {
+            DogLog.log("Controller/Translation Y", y.getAsDouble());
+            return y.getAsDouble() * AllianceUtil.getTranslationDirection();
+        }, () -> {
+            DogLog.log("Controller/Translation X", x.getAsDouble());
+            return x.getAsDouble() * AllianceUtil.getTranslationDirection();
+        }, rotation);
+        
+        drive.setDefaultCommand(driveCommand);
     }
 }
