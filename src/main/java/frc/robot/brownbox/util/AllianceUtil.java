@@ -16,9 +16,7 @@ public class AllianceUtil {
      * @return Whether or not the robot is on the red alliance.
      */
     public static boolean isRedAlliance() {
-        if (Robot.isSimulation()) {
-            return false;
-        }
+      
 
         if (DriverStation.getAlliance().isEmpty()) {
             // TODO add an alert to the dashboard that this happened.
