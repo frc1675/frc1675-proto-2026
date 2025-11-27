@@ -6,7 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.Meter;
 
-
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,9 +18,6 @@ import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
 import java.util.function.DoubleSupplier;
-
-import dev.doglog.DogLog;
-import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
@@ -55,15 +52,18 @@ public class RobotContainer {
 
     // used by operation configurations to register the ability to drive the swerve
     public void registerSwerveDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
-        
-        Command driveCommand = drive.driveCommand(() -> {
-            DogLog.log("Controller/Translation Y", y.getAsDouble());
-            return y.getAsDouble() * AllianceUtil.getTranslationDirection();
-        }, () -> {
-            DogLog.log("Controller/Translation X", x.getAsDouble());
-            return x.getAsDouble() * AllianceUtil.getTranslationDirection();
-        }, rotation);
-        
+
+        Command driveCommand = drive.driveCommand(
+                () -> {
+                    DogLog.log("Controller/Translation Y", y.getAsDouble());
+                    return y.getAsDouble() * AllianceUtil.getTranslationDirection();
+                },
+                () -> {
+                    DogLog.log("Controller/Translation X", x.getAsDouble());
+                    return x.getAsDouble() * AllianceUtil.getTranslationDirection();
+                },
+                rotation);
+
         drive.setDefaultCommand(driveCommand);
     }
 }
