@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+
+import dev.doglog.DogLog;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
@@ -51,9 +53,10 @@ public class DriveSubsystem extends SubsystemBase {
     public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
         return run(() -> {
             ChassisSpeeds logVelocity = velocity.get();
-            SmartDashboard.putNumber("swerveX", logVelocity.vxMetersPerSecond);
-            SmartDashboard.putNumber("swerveY", logVelocity.vyMetersPerSecond);
-            SmartDashboard.putNumber("swerveR", logVelocity.omegaRadiansPerSecond);
+
+            DogLog.log("SwerveStudy/chassisX", logVelocity.vxMetersPerSecond);
+            DogLog.log("SwerveStudy/chassisY", logVelocity.vyMetersPerSecond);
+            DogLog.log("SwerveStudy/chassisRot", logVelocity.omegaRadiansPerSecond);
 
             swerve.driveFieldOriented(logVelocity);
         });

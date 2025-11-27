@@ -24,6 +24,7 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
     }
 
     private double getJoystickInput(CommandXboxController stick, int axe) {
+        
         return stick.getRawAxis(axe);
     }
 }
