@@ -6,7 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.Meter;
 
-
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,12 +18,7 @@ import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
 import java.util.function.DoubleSupplier;
-
-import dev.doglog.DogLog;
 import swervelib.SwerveInputStream;
-
-import dev.doglog.DogLog;
-
 
 public class RobotContainer {
 
@@ -58,7 +53,7 @@ public class RobotContainer {
         driverConfig.periodic();
     }
 
-    // A separate method to hold the code for telling the various operation configurations 
+    // A separate method to hold the code for telling the various operation configurations
     //  to bind themselves to commands. This needs to happen after subsystems are available.
     private void configureBindings() {
         driverConfig.registerTeleopFunctions(this);
@@ -72,34 +67,39 @@ public class RobotContainer {
     // used by operation configurations to register the ability to drive the swerve
     // Does its own logic to convert inputs to be field oriented
     public void registerManuallyFieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
-        
-        Command driveCommand = drive.driveCommand(() -> {
-            DogLog.log("Controller/Translation Y", y.getAsDouble());
-            return y.getAsDouble() * AllianceUtil.getTranslationDirection();
-        }, () -> {
-            DogLog.log("Controller/Translation X", x.getAsDouble());
-            return x.getAsDouble() * AllianceUtil.getTranslationDirection();
-        }, rotation);
-        
+
+        Command driveCommand = drive.driveCommand(
+                () -> {
+                    DogLog.log("Controller/Translation Y", y.getAsDouble());
+                    return y.getAsDouble() * AllianceUtil.getTranslationDirection();
+                },
+                () -> {
+                    DogLog.log("Controller/Translation X", x.getAsDouble());
+                    return x.getAsDouble() * AllianceUtil.getTranslationDirection();
+                },
+                rotation);
+
         drive.setDefaultCommand(driveCommand);
     }
 
     // used by operation configurations to register the ability to drive the swerve
     // Uses SwerveInputStream and YAGSL driveFieldOriented to auto-adjust to field oriented
-    public void registerAutoFieldOrientedDrive(DoubleSupplier driverX, DoubleSupplier driverY, DoubleSupplier driverRotation) {
+    public void registerAutoFieldOrientedDrive(
+            DoubleSupplier driverX, DoubleSupplier driverY, DoubleSupplier driverRotation) {
         // This is where we need to think about FRAMES OF REFERENCE.
-        // Frame of reference 1: "Driver". 
+        // Frame of reference 1: "Driver".
         //   The frame of reference you have when standing in the driver station of your current alliance.
         //   Whether the robot is on the blue or red alliance is irrelevant to this frame of reference.
         //   Pushing up on the driver translation joystick gives negative value to driverY and vice-versa.
         //   Pushing left on the driver translation joystick gives negative value to driverX and vice-versa.
         //   Pushing left on the driver rotation joystick gives negative value to driverRotation and vice-versa.
         // Frame of reference 2: "Field" / "Blue Origin".
-        //   See: https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#field-coordinate-systems
+        //   See:
+        // https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#field-coordinate-systems
         //   The frame of reference that uses Blue Alliance Wall, Opposite Scoring Table corner as 0, 0.
         //   This frame of reference REMAINS THE SAME whether the robot is on the blue or red alliance.
         //   Most of the robot code and libraries operate in this frame of reference, and do transforms of convenience
-        //     to handle alliance differences (driving, PathPlanner, etc). Velocity tranformations for driver input 
+        //     to handle alliance differences (driving, PathPlanner, etc). Velocity tranformations for driver input
         //     behave the same independent of whether the field is rotationally symmetric or simply mirrored.
         //   Blue alliance is the assumed default state of he robot, and cases where the robot is on the red alliance
         //     modify default behavior.
@@ -116,17 +116,17 @@ public class RobotContainer {
         //   of the robot.
         // https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/ChassisSpeeds.html
         SwerveInputStream driveAngularVelocity = SwerveInputStream
-                // SwerveInputStream expects X and Y in terms of a BLUE ALLIANCE ROBOT. 
+                // SwerveInputStream expects X and Y in terms of a BLUE ALLIANCE ROBOT.
                 // Velocities will be flipped if the robot is red thanks to allianceRelativeControl later.
                 // For a blue robot driver:
-                //   Pushing up on the translation joystick (-driverY) 
+                //   Pushing up on the translation joystick (-driverY)
                 //     should move the robot toward the red wall (+fieldX) and vice-versa.
                 //   Pushing left on the translation joystick (-driverX)
                 //     should move the robot toward the scoring table (+fieldY) and vice-versa.
                 //   Result: fieldX = driverY * -1, fieldY = driverX * -1
                 .of(drive.getSwerveDrive(), () -> (driverY.getAsDouble() * -1.0), () -> (driverX.getAsDouble() * -1.0))
                 // the rotation of the robot doesn't change based on what way it's facing.
-                .withControllerRotationAxis(driverRotation) 
+                .withControllerRotationAxis(driverRotation)
                 // deadband to apply to each controller input - if it's less than the deadband, it's 0 instead.
                 .deadband(Constants.Controller.DEADZONE_CONSTANT)
                 // An amount to scale translation by, currently 1.0 (don't scale).

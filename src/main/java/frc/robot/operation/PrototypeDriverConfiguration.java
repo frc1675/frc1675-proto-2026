@@ -17,7 +17,7 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
 
     @Override
     public void registerTeleopFunctions(RobotContainer rc) {
-        //rc.registerManuallyFieldOrientedSwerveDrive(
+        // rc.registerManuallyFieldOrientedSwerveDrive(
         rc.registerAutoFieldOrientedDrive(
                 () -> getJoystickInput(controller, 0),
                 () -> getJoystickInput(controller, 1),
@@ -25,7 +25,7 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
     }
 
     private double getJoystickInput(CommandXboxController stick, int axe) {
-        
+
         return stick.getRawAxis(axe);
     }
 }
