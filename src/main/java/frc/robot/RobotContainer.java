@@ -18,10 +18,7 @@ import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
 import java.util.function.DoubleSupplier;
-<<<<<<< HEAD
-=======
 import swervelib.SwerveInputStream;
->>>>>>> origin/yagsl-attempt-2
 
 public class RobotContainer {
 
@@ -48,7 +45,7 @@ public class RobotContainer {
         boolean blueAlliance = !AllianceUtil.isRedAlliance();
         Pose2d startingPose = blueAlliance
                 ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
-                : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
+                : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(0));
         drive.setPose2d(startingPose);
     }
 
@@ -68,12 +65,8 @@ public class RobotContainer {
     }
 
     // used by operation configurations to register the ability to drive the swerve
-<<<<<<< HEAD
-    public void registerSwerveDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
-=======
     // Does its own logic to convert inputs to be field oriented
     public void registerManuallyFieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
->>>>>>> origin/yagsl-attempt-2
 
         Command driveCommand = drive.driveCommand(
                 () -> {

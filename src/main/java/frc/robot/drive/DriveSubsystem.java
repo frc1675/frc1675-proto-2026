@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
         boolean blueAlliance = true;
         Pose2d startingPose = blueAlliance
                 ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
-                : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(180));
+                : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(0));
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
         try {
