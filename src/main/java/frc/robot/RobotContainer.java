@@ -18,16 +18,14 @@ import swervelib.SwerveInputStream;
 public class RobotContainer {
 final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DriverControllerPort);
-final Wheels wheels =
-    new Wheels(); 
+    final Wheels wheels = new Wheels(); 
     private OperationConfiguration driverConfig;
 
     private DriveSubsystem drive;
 
     public RobotContainer() {
-     
 
-        drive = new DriveSubsystem();
+     //   drive = new DriveSubsystem();
 
         configureBindings();
     }
@@ -35,8 +33,31 @@ final Wheels wheels =
     public void teleopInit() {}
 
     private void configureBindings() {
- driverController.a().onTrue(new InstantCommand(() -> wheels.startmotor()));
-        driverConfig.registerTeleopFunctions(this);
+ driverController.a().onTrue(new InstantCommand(() -> wheels.startFlRotationMotor()));
+ driverController.a().onFalse(new InstantCommand(() -> wheels.stopFlRotationMotor()));
+
+ driverController.b().onTrue(new InstantCommand(() -> wheels.startFlWheelMotor()));
+ driverController.b().onFalse(new InstantCommand(() -> wheels.stopFlWheelMotor()));
+
+ driverController.y().onTrue(new InstantCommand(() -> wheels.startFrWheelMotor()));
+ driverController.y().onFalse(new InstantCommand(() -> wheels.stopFrWheelMotor()));
+
+ driverController.x().onTrue(new InstantCommand(() -> wheels.startFrRotationMotor()));
+ driverController.x().onFalse(new InstantCommand(() -> wheels.stopFrRotationMotor()));
+
+ driverController.rightBumper().onTrue(new InstantCommand(() -> wheels.startBrRotationMotor()));
+ driverController.rightBumper().onFalse(new InstantCommand(() -> wheels.stopBrRotationMotor()));
+
+ driverController.leftBumper().onTrue(new InstantCommand(() -> wheels.startBrWheelMotor()));
+ driverController.leftBumper().onFalse(new InstantCommand(() -> wheels.stopBrWheelMotor()));
+
+ driverController.rightStick().onTrue(new InstantCommand(() -> wheels.startBlRotationMotor()));
+ driverController.rightStick().onFalse(new InstantCommand(() -> wheels.stopBlRotationMotor()));
+
+
+ driverController.leftStick().onTrue(new InstantCommand(() -> wheels.startBlWheelMotor()));
+ driverController.leftStick().onFalse(new InstantCommand(() -> wheels.stopBlWheelMotor()));
+      //  driverConfig.registerTeleopFunctions(this);
     }
 
     public Command getAutonomousCommand() {
