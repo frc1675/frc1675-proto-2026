@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -54,9 +53,9 @@ public class DriveSubsystem extends SubsystemBase {
     public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
         return run(() -> {
             ChassisSpeeds logVelocity = velocity.get();
-            SmartDashboard.putNumber("swerveX", logVelocity.vxMetersPerSecond);
-            SmartDashboard.putNumber("swerveY", logVelocity.vyMetersPerSecond);
-            SmartDashboard.putNumber("swerveR", logVelocity.omegaRadiansPerSecond);
+            DogLog.log("SwerveStudy/chassisX", logVelocity.vxMetersPerSecond);
+            DogLog.log("SwerveStudy/chassisY", logVelocity.vyMetersPerSecond);
+            DogLog.log("SwerveStudy/chassisRot", logVelocity.omegaRadiansPerSecond);
             swerve.driveFieldOriented(logVelocity);
         });
     }

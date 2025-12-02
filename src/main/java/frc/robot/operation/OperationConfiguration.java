@@ -10,4 +10,6 @@ public interface OperationConfiguration {
     public void registerRobotFunctions(RobotContainer rc);
 
     public void registerTeleopFunctions(RobotContainer rc);
+
+    public void periodic();
 }
