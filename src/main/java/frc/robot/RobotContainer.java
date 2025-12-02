@@ -20,6 +20,7 @@ import swervelib.SwerveInputStream;
 public class RobotContainer {
 
     private OperationConfiguration driverConfig;
+    
     @Logged
     public DriveTestSenors sensors = new DriveTestSenors();
    // private DriveSubsystem drive;
@@ -34,7 +35,7 @@ public class RobotContainer {
     }
 
     public void teleopInit() {
-        sensors.getEncoderValue();
+        sensors.getleftFront();
     }
 
     private void configureBindings() {
