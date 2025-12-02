@@ -4,31 +4,38 @@
 
 package frc.robot;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
+import frc.robot.subsystems.DriveTestSenors;
+
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveInputStream;
 
+@Logged
 public class RobotContainer {
 
     private OperationConfiguration driverConfig;
-
-    private DriveSubsystem drive;
+    @Logged
+    public DriveTestSenors sensors = new DriveTestSenors();
+   // private DriveSubsystem drive;
 
     public RobotContainer() {
 
         driverConfig = new PrototypeDriverConfiguration(new CommandXboxController(0));
 
-        drive = new DriveSubsystem();
+        //drive = new DriveSubsystem();
 
         configureBindings();
     }
 
-    public void teleopInit() {}
+    public void teleopInit() {
+        sensors.getEncoderValue();
+    }
 
     private void configureBindings() {
         driverConfig.registerTeleopFunctions(this);
@@ -40,7 +47,7 @@ public class RobotContainer {
 
     // used by operation configurations to register the ability to drive the swerve
     public void registerSwerveAngularVelocityDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier rotation) {
-        SwerveInputStream driveAngularVelocity = SwerveInputStream.of(
+        /*SwerveInputStream driveAngularVelocity = SwerveInputStream.of(
                         drive.getSwerveDrive(), x, y) // Axis which give the desired translational angle and speed.
                 .withControllerRotationAxis(rotation) // Axis which give the desired angular velocity.
                 .deadband(Constants.Controller.DEADZONE_CONSTANT) // Controller deadband
@@ -48,6 +55,6 @@ public class RobotContainer {
                 .allianceRelativeControl(
                         false); // Alliance relative controls. Done already in the driver configuration files.
         Command driveFieldOrientedAnglularVelocity = drive.driveFieldOriented(driveAngularVelocity);
-        drive.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+        drive.setDefaultCommand(driveFieldOrientedAnglularVelocity);*/
     }
 }
