@@ -18,6 +18,9 @@ import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
 import java.util.function.DoubleSupplier;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
@@ -61,7 +64,7 @@ public class RobotContainer {
 
     // Robot.java uses this to get the command to run for autonomous mode
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        return new PathPlannerAuto("Starboy");
     }
 
     // used by operation configurations to register the ability to drive the swerve
