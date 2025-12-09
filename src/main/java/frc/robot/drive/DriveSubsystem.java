@@ -50,6 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
         return swerve;
     }
 
+
     public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
         return run(() -> {
             ChassisSpeeds logVelocity = velocity.get();
@@ -63,6 +64,37 @@ public class DriveSubsystem extends SubsystemBase {
     public void setPose2d(Pose2d pose) {
         swerve.resetOdometry(pose);
         swerve.setGyro(new Rotation3d(0, 0, pose.getRotation().getRadians()));
+    }
+
+    /** Used for PathPlanner autonomous */
+    public Pose2d getPose() {
+        return swerve.getPose();
+    }
+
+     /** Used for PathPlanner autonomous */
+     public void resetOdometry(Pose2d override) {
+        swerve.setGyro(new Rotation3d(
+                swerve.getRoll().getMeasure(),
+                swerve.getPitch().getMeasure(),
+                override.getRotation().getMeasure()));
+
+        swerve.resetOdometry(override);
+
+        System.out.println("Ran resetOdometry");
+    }
+
+    /** Used for PathPlanner autonomous */
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return swerve.getRobotVelocity();
+    }
+
+    /** Used for PathPlanner autonomous */
+    public void setRobotRelativeChassisSpeeds(ChassisSpeeds speeds) {
+        swerve.drive(
+                new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
+                speeds.omegaRadiansPerSecond,
+                false,
+                false);
     }
 
     /**
