@@ -10,6 +10,8 @@ import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -31,6 +33,9 @@ public class RobotContainer {
     // The subsystems of the robot - these perform Commands to make the robot do things.
     private DriveSubsystem drive;
 
+    //PowerDistribution powerDistribution;
+    // private PowerDistribution powerDistribution;
+
     // Instantiate things when the robot code starts for use in this class.
     public RobotContainer() {
         // Set up operation configurations
@@ -41,6 +46,9 @@ public class RobotContainer {
 
         // handle any other setup
         configureBindings();
+
+        // powerDistribution = new PowerDistribution(40, ModuleType.kRev);
+
     }
 
     // A hook called from Robot.java that will fire when the robot enters teleoperated mode.
@@ -54,6 +62,25 @@ public class RobotContainer {
 
     public void periodic() {
         driverConfig.periodic();
+
+        //public double getAllCurrents();
+        // double fLR = powerDistribution.getCurrent(6);
+        // double fLD = powerDistribution.getCurrent(7);
+        // double fRR = powerDistribution.getCurrent(8);
+        // double fRD = powerDistribution.getCurrent(9);
+        // double bRR = powerDistribution.getCurrent(10);
+        // double bRD = powerDistribution.getCurrent(11);
+        // double bLR = powerDistribution.getCurrent(12);
+        // double bLD = powerDistribution.getCurrent(13);
+
+        // DogLog.log("Front Left Rotation", fLR);
+        // DogLog.log("Front Left Drive", fLD);
+        // DogLog.log("Front Right Rotation", fRR);
+        // DogLog.log("Front Right Drive", fRD);
+        // DogLog.log("Back Left Rotation", bLR);
+        // DogLog.log("Back Left Drive", bLD);
+        // DogLog.log("Back Right Rotation", bRR);
+        // DogLog.log("Back Right Drive", bRD);
     }
 
     // A separate method to hold the code for telling the various operation configurations
@@ -109,6 +136,7 @@ public class RobotContainer {
         //   Moving towards the scoring table gives positive value to fieldY and vice-versa.
         //   Moving towards the red alliance wall gives positive value to fieldX and vice-versa.
         //   Rotating counter-clockwise gives positive value to the robotAngle and vice-versa.
+        //holy yap
 
         // SwerveInputStream is a convenience class offered by YAGSL that takes in joystick values and converts
         //   them to a WPILib ChassisSpeeds object.

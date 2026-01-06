@@ -42,6 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
         try {
             swerve = new SwerveParser(swerveJsonDirectory)
                     .createSwerveDrive(Constants.Drive.MAXIMUM_VELOCITY, startingPose);
+            swerve.setHeadingCorrection(true, 0.05);
         } catch (IOException e) {
             System.out.println("Swerve drive configuration file could not be found at "
                     + Filesystem.getDeployDirectory()
@@ -120,10 +121,6 @@ public class DriveSubsystem extends SubsystemBase {
         return swerve.getPose();
     }
 
-    /** Used for PathPlanner autonomous */
-    public Pose2d getPose() {
-        return swerve.getPose();
-    }
 
      /** Used for PathPlanner autonomous */
      public void resetOdometry(Pose2d override) {
