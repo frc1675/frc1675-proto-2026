@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Driver to Side 1"
+            "pathName": "Coral 1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Side 1 to Mid"
+            "pathName": "coral grab"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mid to Side 2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Side 2 to Driver"
+            "pathName": "Coral 2"
           }
         }
       ]

@@ -21,4 +21,9 @@ public class Constants {
 
         public static final int SCALE_TRANSLATION = 1;
     }
+    public static class Auto {
+        // 0 is a placeholder until best values are found
+        public static final double TRANSLATION_P = 6;
+        public static final double ROTATION_P = 6;
+    }
 }

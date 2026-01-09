@@ -10,37 +10,51 @@ import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.brownbox.util.AllianceUtil;
 import frc.robot.drive.DriveSubsystem;
+import frc.robot.drive.PathPlanner;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
 import java.util.function.DoubleSupplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
-
+   
     // The configurations that will govern the controls
     private OperationConfiguration driverConfig;
 
     // The subsystems of the robot - these perform Commands to make the robot do things.
     private DriveSubsystem drive;
+        
+        public PathPlanner auto;
+        // Instantiate things when the robot code starts for use in this class.
+        public RobotContainer() {
+            // Set up operation configurations
+            driverConfig = new PrototypeDriverConfiguration(new CommandXboxController(0));
+    
+            // set up subsystems
+            drive = new DriveSubsystem();
+    
+            // handle any other setup
+            configureBindings();
+            NamedCommands.registerCommand("coralkidnapping",new InstantCommand());
+            auto = new PathPlanner(drive);
 
-    // Instantiate things when the robot code starts for use in this class.
-    public RobotContainer() {
-        // Set up operation configurations
-        driverConfig = new PrototypeDriverConfiguration(new CommandXboxController(0));
-
-        // set up subsystems
-        drive = new DriveSubsystem();
-
-        // handle any other setup
-        configureBindings();
     }
 
     // A hook called from Robot.java that will fire when the robot enters teleoperated mode.
@@ -61,10 +75,11 @@ public class RobotContainer {
     private void configureBindings() {
         driverConfig.registerTeleopFunctions(this);
     }
-
+ 
     // Robot.java uses this to get the command to run for autonomous mode
     public Command getAutonomousCommand() {
-        return new PathPlannerAuto("Starboy");
+        // An example command will be run in autonomous
+        return auto.getAuto();
     }
 
     // used by operation configurations to register the ability to drive the swerve

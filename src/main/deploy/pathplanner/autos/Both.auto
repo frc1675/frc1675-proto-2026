@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Moves behind robot 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pushed robot 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Moves behind robot 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Pushes robot 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Connect"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Coral 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "coral grab"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Coral 2"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

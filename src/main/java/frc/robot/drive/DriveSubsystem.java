@@ -113,6 +113,30 @@ public class DriveSubsystem extends SubsystemBase {
     public void setPose2d(Pose2d pose) {
         swerve.resetOdometry(pose);
     }
+     /** Used for PathPlanner autonomous */
+     public ChassisSpeeds getRobotRelativeSpeeds() {
+        return swerve.getRobotVelocity();
+    }
+
+    /** Used for PathPlanner autonomous */
+    public void setRobotRelativeChassisSpeeds(ChassisSpeeds speeds) {
+        swerve.drive(
+                new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
+                speeds.omegaRadiansPerSecond,
+                false,
+                false);
+    }
+    public void resetOdometry(Pose2d override) {
+        swerve.setGyro(new Rotation3d(
+                swerve.getRoll().getMeasure(),
+                swerve.getPitch().getMeasure(),
+                override.getRotation().getMeasure()));
+
+        swerve.resetOdometry(override);
+
+        System.out.println("Ran resetOdometry");
+        System.out.println(override.getRotation().getDegrees());
+    }
 
     // Returns the current pose of the robot -- used by PathPlanner's AutoBuilder
     public Pose2d getPose() {
