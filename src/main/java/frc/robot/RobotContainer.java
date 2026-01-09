@@ -10,6 +10,7 @@ import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -17,6 +18,8 @@ import frc.robot.brownbox.util.AllianceUtil;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
+import frc.robot.subsystems.Arm;
+
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;

@@ -7,17 +7,35 @@ package frc.robot;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Arm;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
+     private final Joystick m_joystick = new Joystick(0);
+  private final Arm m_arm = new Arm();
 
     private final RobotContainer m_robotContainer;
 
     public Robot() {
         m_robotContainer = new RobotContainer();
+    }
+    @Override
+    public void simulationPeriodic() {
+      // Update the simulation model.
+      m_arm.simulationPeriodic();
+    }
+  
+    @Override
+    public void teleopPeriodic() {}
+  
+    @Override
+    public void disabledInit() {
+      // This just makes sure that our simulation code knows that the motor's off.
+      m_arm.stop();
     }
 
     @Override
@@ -25,9 +43,6 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         m_robotContainer.periodic();
     }
-
-    @Override
-    public void disabledInit() {}
 
     @Override
     public void disabledPeriodic() {}
@@ -57,12 +72,9 @@ public class Robot extends TimedRobot {
         }
         m_robotContainer.teleopInit();
     }
-
-    @Override
-    public void teleopPeriodic() {}
-
     @Override
     public void teleopExit() {}
+   
 
     @Override
     public void testInit() {
