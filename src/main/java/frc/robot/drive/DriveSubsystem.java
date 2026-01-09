@@ -62,12 +62,12 @@ public class DriveSubsystem extends SubsystemBase {
         // Configure AutoBuilder last
         AutoBuilder.configure(
             this::getPose, // Robot pose supplier
-            this::setPose2d, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getRobotRelativeChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                     new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                    new PIDConstants(20.0, 0.0, 0.0) // Rotation PID constants
             ),
             config, // The robot configuration
             () -> {
@@ -173,4 +173,8 @@ public class DriveSubsystem extends SubsystemBase {
                     false);
         });
     }
+
+    public void periodic() {
+            DogLog.log("Drive/Yaw", getPose().getRotation());
+        }
 }

@@ -27,6 +27,8 @@ import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
+    private PathPlannerAuto auto;
+
     // The configurations that will govern the controls
     private OperationConfiguration driverConfig;
 
@@ -46,6 +48,8 @@ public class RobotContainer {
 
         // handle any other setup
         configureBindings();
+
+        auto = new PathPlannerAuto("Auto Test 2") ;
 
         // powerDistribution = new PowerDistribution(40, ModuleType.kRev);
 
@@ -91,7 +95,8 @@ public class RobotContainer {
 
     // Robot.java uses this to get the command to run for autonomous mode
     public Command getAutonomousCommand() {
-        return new PathPlannerAuto("Starboy");
+        return auto;
+
     }
 
     // used by operation configurations to register the ability to drive the swerve
