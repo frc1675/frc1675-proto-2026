@@ -40,7 +40,7 @@ public class RobotContainer {
 
     // The subsystems of the robot - these perform Commands to make the robot do things.
     private DriveSubsystem drive;
-        
+        private SparkMax motor = new SparkMax(20, MotorType.kBrushless);
         public PathPlanner auto;
         // Instantiate things when the robot code starts for use in this class.
         public RobotContainer() {
