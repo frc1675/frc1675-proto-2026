@@ -2,7 +2,6 @@ package frc.robot.brownbox.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.Robot;
 
 /**
  * Convenience methods based on the current alliance.
@@ -16,9 +15,6 @@ public class AllianceUtil {
      * @return Whether or not the robot is on the red alliance.
      */
     public static boolean isRedAlliance() {
-        if (Robot.isSimulation()) {
-            return false;
-        }
 
         if (DriverStation.getAlliance().isEmpty()) {
             // TODO add an alert to the dashboard that this happened.
