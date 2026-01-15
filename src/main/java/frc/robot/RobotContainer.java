@@ -35,7 +35,7 @@ import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
-    
+    final Shooter shooter = new Shooter (); 
     private final CommandXboxController driverController;
     private final CommandXboxController operatorController;
 
@@ -89,8 +89,14 @@ public class RobotContainer {
     public void registerZeroGyro(Trigger t) {
         t.onTrue(new InstantCommand(() -> drive.zeroGyroscope(), drive));
         t.onTrue(new InstantCommand(() -> System.out.println("Zero button pressed!")));
+
     }
 
+    public void registerShoot(Trigger t) {
+        t.onTrue(new InstantCommand(() -> shooter.startFlRotationMotor()));
+        t.onFalse(new InstantCommand(() -> shooter.stopFlRotationMotor()));
+    
+}
     // A hook called from Robot.java that will fire when the robot enters teleoperated mode.
     public void teleopInit() {
         for (OperationConfiguration opConfig : operationConfigs) {
