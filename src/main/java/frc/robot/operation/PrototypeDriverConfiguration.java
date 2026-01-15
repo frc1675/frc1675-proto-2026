@@ -1,6 +1,8 @@
 package frc.robot.operation;
 
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
 
 /**
@@ -13,9 +15,6 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
     }
 
     @Override
-    public void registerRobotFunctions(RobotContainer rc) {}
-
-    @Override
     public void registerTeleopFunctions(RobotContainer rc) {
         // rc.registerManuallyFieldOrientedSwerveDrive(
         rc.registerAutoFieldOrientedDrive(
@@ -24,8 +23,21 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
                 () -> getJoystickInput(controller, 4));
     }
 
-    private double getJoystickInput(CommandXboxController stick, int axe) {
 
+	@Override
+	public void registerRobotFunctions(RobotContainer rc) {
+        rc.registerZeroGyro(controller.start());
+	}
+
+    
+    private double getJoystickInput(CommandXboxController stick, int axe) {
         return stick.getRawAxis(axe);
     }
+
+	@Override
+	public Trigger start() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'start'");
+	}
+
 }

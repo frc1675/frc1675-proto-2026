@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import static edu.wpi.first.units.Units.Meter;
 
 import dev.doglog.DogLog;
@@ -14,18 +15,31 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.Drive;
 import frc.robot.brownbox.util.AllianceUtil;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
+
+import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import swervelib.SwerveInputStream;
 
+
+
 public class RobotContainer {
+
+    
+    private final CommandXboxController driverController;
+    private final CommandXboxController operatorController;
+
+    private ArrayList<OperationConfiguration> operationConfigs = new ArrayList<>();
 
     private PathPlannerAuto auto;
 
@@ -40,8 +54,12 @@ public class RobotContainer {
 
     // Instantiate things when the robot code starts for use in this class.
     public RobotContainer() {
+
+        driverController = new CommandXboxController(0);
+        operatorController = new CommandXboxController(1);
+
         // Set up operation configurations
-        driverConfig = new PrototypeDriverConfiguration(new CommandXboxController(0));
+        driverConfig = new PrototypeDriverConfiguration(driverController);
 
         // set up subsystems
         drive = new DriveSubsystem();
@@ -49,20 +67,42 @@ public class RobotContainer {
         // handle any other setup
         configureBindings();
 
-        auto = new PathPlannerAuto("Auto Test 2") ;
+        auto = new PathPlannerAuto("Rotate Move Test Auto") ;
+
+        initOperationConfigs();
+        registerRobotFunctions();
 
         // powerDistribution = new PowerDistribution(40, ModuleType.kRev);
 
     }
 
+    private void initOperationConfigs() {
+        operationConfigs.add(new PrototypeDriverConfiguration(driverController));
+    }
+
+    private void registerRobotFunctions() {
+        for (OperationConfiguration opConfig : operationConfigs) {
+            opConfig.registerRobotFunctions(this);
+        }
+    }
+    
+    public void registerZeroGyro(Trigger t) {
+        t.onTrue(new InstantCommand(() -> drive.zeroGyroscope(), drive));
+        t.onTrue(new InstantCommand(() -> System.out.println("Zero button pressed!")));
+    }
+
     // A hook called from Robot.java that will fire when the robot enters teleoperated mode.
     public void teleopInit() {
-        boolean blueAlliance = !AllianceUtil.isRedAlliance();
-        Pose2d startingPose = blueAlliance
-                ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
-                : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(0));
-        drive.setPose2d(startingPose);
+        for (OperationConfiguration opConfig : operationConfigs) {
+            opConfig.registerTeleopFunctions(this);
+        }
+        // boolean blueAlliance = !AllianceUtil.isRedAlliance();
+        // Pose2d startingPose = blueAlliance
+        //         ? new Pose2d(new Translation2d(Meter.of(1), Meter.of(4)), Rotation2d.fromDegrees(0))
+        //         : new Pose2d(new Translation2d(Meter.of(16), Meter.of(4)), Rotation2d.fromDegrees(0));
+        // drive.setPose2d(startingPose);
     }
+
 
     public void periodic() {
         driverConfig.periodic();
@@ -116,6 +156,7 @@ public class RobotContainer {
 
         drive.setDefaultCommand(driveCommand);
     }
+
 
     // used by operation configurations to register the ability to drive the swerve
     // Uses SwerveInputStream and YAGSL driveFieldOriented to auto-adjust to field oriented

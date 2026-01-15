@@ -1,5 +1,6 @@
 package frc.robot.operation;
 
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
 
 /**
@@ -12,4 +13,6 @@ public interface OperationConfiguration {
     public void registerTeleopFunctions(RobotContainer rc);
 
     public void periodic();
+
+    public Trigger start();
 }
