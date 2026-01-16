@@ -94,8 +94,8 @@ public class RobotContainer {
     }
 
     public void registerShoot(Trigger t) {
-        t.onTrue(new InstantCommand(() -> shooter.startFlRotationMotor()));
-        t.onFalse(new InstantCommand(() -> shooter.stopFlRotationMotor()));
+        t.onTrue(new InstantCommand(() -> shooter.start()));
+        t.onFalse(new InstantCommand(() -> shooter.stop()));
     
 }
     // A hook called from Robot.java that will fire when the robot enters teleoperated mode.
