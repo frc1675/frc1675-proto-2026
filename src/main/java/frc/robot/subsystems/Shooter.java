@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -20,5 +20,6 @@ public class Shooter {
         flRotationMotor.setVoltage(MOTOR_ON);
     }
     public void stopFlRotationMotor () {    
+      flRotationMotor.setVoltage(MOTOR_OFF);
   }
 }

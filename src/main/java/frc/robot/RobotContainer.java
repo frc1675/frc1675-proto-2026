@@ -23,6 +23,7 @@ import frc.robot.brownbox.util.AllianceUtil;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.operation.OperationConfiguration;
 import frc.robot.operation.PrototypeDriverConfiguration;
+import frc.robot.subsystems.Shooter;
 
 import java.util.ArrayList;
 import java.util.function.DoubleSupplier;

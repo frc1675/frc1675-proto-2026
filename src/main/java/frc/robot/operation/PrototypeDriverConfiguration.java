@@ -27,6 +27,7 @@ public class PrototypeDriverConfiguration extends AbstractCommandXboxOperationCo
 	@Override
 	public void registerRobotFunctions(RobotContainer rc) {
         rc.registerZeroGyro(controller.start());
+        rc.registerShoot(controller.a());
 	}
 
     
